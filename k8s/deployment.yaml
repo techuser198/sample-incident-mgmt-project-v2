@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: flask
-        image: yourdockerhub/incident-mgmt-v2:latest
+        image: techuser198/incident-mgmt-v2:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
