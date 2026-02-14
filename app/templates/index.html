@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+    <h3>Incidents</h3>
+</div>
+
+<form method="POST" action="{{ url_for('main.create') }}" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <input name="title" class="form-control" placeholder="Title" required>
+    </div>
+    <div class="col-md-4">
+        <input name="description" class="form-control" placeholder="Description">
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-success w-100">Create</button>
+    </div>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th width="250">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in incidents %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.title }}</td>
+            <td>
+                {% if i.status == 'OPEN' %}
+                    <span class="badge bg-warning text-dark">OPEN</span>
+                {% else %}
+                    <span class="badge bg-success">RESOLVED</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if i.status == 'OPEN' %}
+                    <a href="{{ url_for('main.resolve', id=i.id) }}" class="btn btn-sm btn-primary">
+                        Resolve
+                    </a>
+                {% endif %}
+
+                {% if current_user.role == 'admin' %}
+                    <a href="{{ url_for('main.delete', id=i.id) }}" class="btn btn-sm btn-danger">
+                        Delete
+                    </a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
